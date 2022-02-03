@@ -2,6 +2,16 @@
 import requests
 from bs4 import BeautifulSoup
 
+from pandas_datareader import data as web
+import pandas as pd
+import matplotlib.pyplot as plt
+
+#cotação = web.DataReader('ticker', data_source='yahoo', start="12/29/2020", end="12/30/2020")
+cot = web.DataReader('bitcoin', data_source='coinmarketcap', start="01/24/2022", end="01/28/2022")
+#display(cot)
+cot["Adj Close"].plot(figsize=(5, 3))
+plt.show()
+
 cod = [
         "AALR3",
         "ABCB3",
@@ -1027,73 +1037,17 @@ cod = [
         "YDUQ3",
 ]
 
-
+'''
 for i in range(0, len(cod)):
-    url = f'https://www.fundamentus.com.br/detalhes.php?papel={cod[i]}'
+    url = f'https://coinmarketcap.com/currencies/bitcoin/markets/'  #{cod[i]}'
     headers = {
         'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"}
     #para saber o Div. Yield
     site = requests.get(url, headers=headers)
     soup = BeautifulSoup(site.content, 'html.parser')
+    print(str(soup))
     soup2 = str(soup)
     Div_Yield = soup2.find('Div. Yield') #Div. Yield</span></td><td class="data"><span class="txt">
     Div2 = Div_Yield + 58
     Div3 = Div2 + 4
-    print(soup2[Div2:Div3])
-
-
-'''for i in range(0, len(cod)):
-    url = f'https://www.fundamentus.com.br/detalhes.php?papel={cod[i]}'
-    headers = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"}
-    # para saber o P/VP
-    site = requests.get(url, headers=headers)
-    soup = BeautifulSoup(site.content, 'html.parser')
-    soup2 = str(soup)
-    P_VP = soup2.find('P/VP')  # Div. Yield</span></td><td class="data"><span class="txt">
-    P_VP2 = P_VP + 55
-    P_VP3 = P_VP2 + 4
-    print(soup2[P_VP2:P_VP3])'''
-
-
-'''url = 'https://www.fundamentus.com.br/detalhes.php?papel=BAHI5'
-headers = {
-    'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"}
-# para saber o P/L NÂO FUNCIONOU
-site = requests.get(url, headers=headers)
-soup = BeautifulSoup(site.content, 'html.parser')
-soup2 = str(soup)
-P_L = soup2.find('Div Br/ Patrim')  # Div. Yield</span></td><td class="data"><span class="txt">
-P_L2 = P_L + 55
-P_L3 = P_L + 5
-print(soup2[P_L2:P_L3])'''
-
-
-'''for i in range(1,int(ultima_pagina)):
-    url_pag = f'https://www.pichau.com.br/hardware/placa-de-video?page={i}'
-    site = requests.get(url_pag, headers=headers)
-    soup = BeautifulSoup(site.content, 'html.parser')
-    placas = soup.find_all('div', class_='product details product-item-details')
-
-    with open('precos_placas.csv', 'a', newline='', encoding='UTF-8') as f:
-        for placa in placas:
-            marca = placa.find('a', class_='product-item-link').get_text().strip()
-
-            try:
-                preco = placa.find('span', class_='price').get_text().stip()
-                num_preco = preco[2:]
-                num_preco = num_preco[:-3]
-            except:
-                num_preco = '0'
-
-            try:
-                preco_boleto = placa.find('span', class_='price-boleto').get_text.strip()
-                index = preco_boleto.find(',')
-                num_preco_boleto = preco_boleto[10:index]
-            except:
-                num_preco_boleto = '0'
-
-            linha = marca + ';' + num_preco + ';' + num_preco_boleto + '\n'
-            print(linha)
-            f.write(linha)
-    print(url_pag)'''
+    print(soup2[Div2:Div3])'''
